@@ -1,4 +1,3 @@
-
 # 🗺️ Gerador Automático de TopoJSON  
 ### **Conversão direta da malha municipal do IBGE para uso em mapas do Power BI**
 
@@ -20,10 +19,11 @@ O sistema baixa os dados diretamente do site do IBGE, filtra pelo estado desejad
 
 ## 🚀 Funcionalidades principais
 
-✔️ Download direto do ZIP do IBGE   
+✔️ Download direto do ZIP do IBGE  
 ✔️ CRS ajustado para **EPSG:4326** (necessário no Power BI)  
 ✔️ Normalização dos campos `name` e `codigo`  
 ✔️ Exportação automática para TopoJSON  
+✔️ Pré-visualização do mapa dentro do próprio aplicativo (em desenvolvimento)  
 ✔️ Arquivo leve, limpo e pronto para uso  
 
 ---
@@ -35,6 +35,7 @@ O sistema baixa os dados diretamente do site do IBGE, filtra pelo estado desejad
 3. Normaliza e organiza os campos necessários ao Power BI  
 4. Converte o shapefile original em **TopoJSON**  
 5. Salva automaticamente no diretório configurado  
+6. (Em breve) Permite pré-visualização e geração via front-end sem código
 
 ---
 
@@ -50,52 +51,53 @@ O sistema baixa os dados diretamente do site do IBGE, filtra pelo estado desejad
 Instalação recomendada (Windows):
 
 ```bash
-conda install -c conda-forge geopandas fiona shapely pyproj
-pip install topojson
+pip install geopandas topojson fiona shapely pyproj
 ```
 
 ---
 
-## 🛠️ Como usar no Power BI
+## 💻 Front-end (em desenvolvimento)
+O front-end é construído em **CustomTkinter** e permitirá:
 
-1. Abra o **Power BI Desktop**  
-2. Insira o visual **Shape Map**  
-3. Vá em **Formatar → Shape → Add Map**  
-4. Importe o TopoJSON gerado  
-5. Relacione sua tabela com:
-   - **codigo** (recomendado)  
-   - ou **name** (quando idêntico ao IBGE)
+- Seleção de estado para gerar o TopoJSON municipal  
+- Pré-visualização do mapa dentro do aplicativo  
+- Geração do TopoJSON com **1 clique**, sem precisar abrir o script  
 
-Seu mapa está pronto!
+> 🔜 Em breve, a interface ficará totalmente funcional para facilitar o uso a qualquer usuário, mesmo sem conhecimento técnico.
 
 ---
 
-## 📦 Estrutura do TopoJSON Gerado
+## 🗂️ Estrutura do projeto
 
-| Campo      | Descrição |
-|------------|-----------|
-| **name**   | Nome do município (padrão IBGE) |
-| **codigo** | Código IBGE normalizado (6 dígitos) |
-| **geometry** | Geometria otimizada para o Power BI |
-
----
-
-## 🧪 Status do projeto
-
-| Item | Status |
-|------|--------|
-| Automação Python | ✔ Concluído |
-| Compatibilidade Power BI | ✔ Validado |
-| Geração por UF | ✔ 100% operacional |
-| **Front-end** | 🔄 Em desenvolvimento |
-
-> O front-end permitirá escolher a UF, visualizar os polígonos e gerar o TopoJSON sem nenhuma necessidade de código.
+```
+/projeto-topojson
+│
+├─ back.py                # Funções para download, geração de TopoJSON e pré-visualização
+├─ front_mapa.py          # Interface gráfica em CustomTkinter
+├─ mapas_powerbi/         # Diretório onde os TopoJSON são salvos
+└─ README.md              # Este arquivo
+```
 
 ---
 
-## 📣 Melhorias planejadas
+## 📥 Download de dados oficiais
+As malhas municipais são baixadas diretamente do IBGE:
 
-- Pré-visualização dos polígonos antes da exportação  
-- Ajuste do nível de simplificação geométrica  
-- Exportação em múltiplos formatos (TopoJSON + GeoJSON)  
-- Geração de mapas regionais completos  
+- Municípios 2022: [BR_Municipios_2022.zip](https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/BR_Municipios_2022.zip)  
+
+> Todos os dados são obtidos dinamicamente pelo script, sem necessidade de download manual.
+
+---
+
+## ⚡ Como usar
+
+1. Abra o **front_mapa.py** com Python 3.10+  
+2. Selecione o **estado desejado**  
+3. Clique em **Visualizar** para ver o mapa  
+4. Clique em **Gerar TopoJSON** para salvar o arquivo pronto para uso no Power BI
+
+---
+
+## 📄 Licença
+
+Este projeto é open-source e pode ser utilizado livremente em projetos pessoais ou comerciais.
