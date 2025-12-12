@@ -20,8 +20,7 @@ O sistema baixa os dados diretamente do site do IBGE, filtra pelo estado desejad
 
 ## 🚀 Funcionalidades principais
 
-✔️ Download direto do ZIP do IBGE  
-✔️ Seleção automática da UF desejada  
+✔️ Download direto do ZIP do IBGE   
 ✔️ CRS ajustado para **EPSG:4326** (necessário no Power BI)  
 ✔️ Normalização dos campos `name` e `codigo`  
 ✔️ Exportação automática para TopoJSON  
@@ -88,7 +87,7 @@ Seu mapa está pronto!
 | Automação Python | ✔ Concluído |
 | Compatibilidade Power BI | ✔ Validado |
 | Geração por UF | ✔ 100% operacional |
-| **Front-end Web** | 🔄 Em desenvolvimento |
+| **Front-end** | 🔄 Em desenvolvimento |
 
 > O front-end permitirá escolher a UF, visualizar os polígonos e gerar o TopoJSON sem nenhuma necessidade de código.
 
@@ -96,7 +95,6 @@ Seu mapa está pronto!
 
 ## 📣 Melhorias planejadas
 
-- Interface web intuitiva (React/Vue)  
 - Pré-visualização dos polígonos antes da exportação  
 - Ajuste do nível de simplificação geométrica  
 - Exportação em múltiplos formatos (TopoJSON + GeoJSON)  
