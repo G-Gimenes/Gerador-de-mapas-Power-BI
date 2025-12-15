@@ -98,7 +98,7 @@ def visualizar():
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao gerar pré-visualização:\n{e}")
 
-btn_visualizar = ctk.CTkButton(combo_container, text="Visualizar", command=visualizar)
+btn_visualizar = ctk.CTkButton(combo_container, text="🔎",font=("Arial", 22), command=visualizar)
 btn_visualizar.pack(side="right", padx=5)
 
 def atualizar_estado(opcao):
