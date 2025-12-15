@@ -6,6 +6,28 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # Importa funções do back-end
 from back import gerar_topojson, gerar_preview
 
+# ---------------- Registro do Windows ----------------
+import os, winreg
+
+DEFAULT_DIR = os.path.join(os.path.expanduser("~"), "Documents", "maps")
+REG_PATH = r"Software\FormatMapGenerator"
+
+def get_output_dir():
+    try:
+        reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, REG_PATH)
+        value, _ = winreg.QueryValueEx(reg_key, "OutputDir")
+        winreg.CloseKey(reg_key)
+        return value
+    except FileNotFoundError:
+        return DEFAULT_DIR
+
+def set_output_dir(path):
+    reg_key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, REG_PATH)
+    winreg.SetValueEx(reg_key, "OutputDir", 0, winreg.REG_SZ, path)
+    winreg.CloseKey(reg_key)
+
+# -----------------------------------------------------
+
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
@@ -16,13 +38,16 @@ app.geometry("1100x650")
 main_frame = ctk.CTkFrame(app)
 main_frame.pack(fill=ctk.BOTH, expand=True)
 
-output_dir = None
+# Carrega pasta de saída do registro ou usa padrão
+output_dir = get_output_dir()
+os.makedirs(output_dir, exist_ok=True)
 
 def abrir_configuracoes():
     global output_dir
     pasta = filedialog.askdirectory(title="Selecione a pasta de saída")
     if pasta:
         output_dir = pasta
+        set_output_dir(output_dir)  # salva no registro
         messagebox.showinfo("Configurações", f"Pasta de saída definida:\n{output_dir}")
 
 # ---------------- Left Panel ----------------
