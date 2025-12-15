@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from tkinter import filedialog
 from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -15,6 +16,15 @@ app.geometry("1100x650")
 main_frame = ctk.CTkFrame(app)
 main_frame.pack(fill=ctk.BOTH, expand=True)
 
+output_dir = None
+
+def abrir_configuracoes():
+    global output_dir
+    pasta = filedialog.askdirectory(title="Selecione a pasta de saída")
+    if pasta:
+        output_dir = pasta
+        messagebox.showinfo("Configurações", f"Pasta de saída definida:\n{output_dir}")
+
 # ---------------- Left Panel ----------------
 left_panel = ctk.CTkFrame(main_frame, width=300)
 left_panel.pack_propagate(False)
@@ -23,7 +33,7 @@ left_panel.pack(side=ctk.LEFT, fill=ctk.Y, padx=10, pady=10)
 ctk.CTkLabel(left_panel, text="🗾", font=("Arial", 56), justify="center", anchor="center").pack(pady=(28,6), fill="x")
 ctk.CTkLabel(left_panel, text="Format Map Generator", font=("Arial", 20, "bold")).pack(pady=5)
 ctk.CTkLabel(left_panel, text="Gere mapas para o visual de Mapas de Formato no Power BI.", justify="center", wraplength=260).pack(pady=10)
-ctk.CTkButton(left_panel, text="⚙️ Configurações").pack(pady=10)
+ctk.CTkButton(left_panel, text="⚙️ Configurações", command=abrir_configuracoes).pack(pady=10)
 ctk.CTkButton(left_panel, text="ℹ️ Sobre", command=lambda: messagebox.showinfo(
     "Sobre",
     "Gera arquivos TopoJSON para utilização no Power BI. Eles já vêm totalmente configurados — basta carregar e usar."
@@ -111,7 +121,7 @@ def gerar_topojson_frontend():
         return
 
     try:
-        output_path = gerar_topojson(tipo, estado_selecionado)
+        output_path = gerar_topojson(tipo, estado_selecionado, pasta_saida=output_dir)
         messagebox.showinfo("Sucesso", f"TopoJSON criado!\nArquivo salvo em:\n{output_path}")
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao gerar TopoJSON:\n{e}")

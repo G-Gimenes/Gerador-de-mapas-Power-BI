@@ -39,20 +39,17 @@ def baixar_gdf(url):
 
     return gdf
 
-def gerar_topojson(tipo, estado_selecionado=None):
-    """
-    Gera TopoJSON para o município selecionado:
-    - tipo: deve ser "Municipal"
-    - estado_selecionado: obrigatório
-    """
+def gerar_topojson(tipo, estado_selecionado=None, pasta_saida=None):
     if tipo != "Municipal":
         raise ValueError("Apenas tipo 'Municipal' é permitido.")
-
     if not estado_selecionado:
         raise ValueError("Selecione um estado para gerar o mapa municipal.")
 
-    pasta_atual = os.path.dirname(os.path.abspath(__file__))
-    pasta_saida = os.path.join(pasta_atual, "mapas_powerbi")
+    # Se não passar pasta_saida, usa padrão
+    if not pasta_saida:
+        pasta_atual = os.path.dirname(os.path.abspath(__file__))
+        pasta_saida = os.path.join(pasta_atual, "mapas_powerbi")
+
     os.makedirs(pasta_saida, exist_ok=True)
 
     gdf = baixar_gdf(URL_MUNICIPIOS)
